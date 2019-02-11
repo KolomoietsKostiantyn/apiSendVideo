@@ -1,0 +1,9 @@
+<script type="text/javascript" src="swfobject.js"></script>
+<div id="player">Здесь можно написать что то, если вдруг не будет грузится плеер. Возможно не включен flash в браузере.</div>
+<script type="text/javascript">
+var so = new SWFObject('player.swf','mpl','400','250','8');
+so.addParam('allowfullscreen','true');
+so.addParam('flashvars','file=https://www.youtube.com/watch?v=Fn8xqwZraRA&t=2446s');
+so.write('player');
+</script>
+
