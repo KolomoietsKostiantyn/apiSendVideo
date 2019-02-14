@@ -17,7 +17,11 @@ namespace WebApplication1.Controllers
     public class VideosController : ApiController
     {
 
-
+        public string Get(int id)
+        {
+            string st1 = HostingEnvironment.MapPath("~/Videos/");
+            return "value = " + id + "//" + st1;
+        }
 
         // GET api/<controller>
         public HttpResponseMessage Get(string filename, string ext)
@@ -26,8 +30,6 @@ namespace WebApplication1.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             
             string filePath = HostingEnvironment.MapPath("~/Videos/") + filename + "." + ext;
-            //Request.Headers.Range = new RangeHeaderValue(0, 5000000);
-            //Request.Headers.Range = new RangeHeaderValue(5000000, 10000000);
             if (Request.Headers.Range != null)
             {
                 try
@@ -42,20 +44,13 @@ namespace WebApplication1.Controllers
                     HttpResponseMessage partialResponse = Request.CreateResponse(HttpStatusCode.PartialContent);
                     partialResponse.Headers.AcceptRanges.Add("bytes");
                     partialResponse.Headers.ETag = new EntityTagHeaderValue("\"" + hash + "\"");
-
                     var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-                    long ee = stream.Length;//451469775
-
-                    
-                    //Request.Headers.Range = new RangeHeaderValue(0 , stream.Length);
- 
                     partialResponse.Content = new ByteRangeStreamContent(stream, Request.Headers.Range, new MediaTypeHeaderValue("video/mp4"));
 
                     return partialResponse;
                 }
                 catch (Exception ex)
                 {
-                    throw;
                     return new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 }
             }
